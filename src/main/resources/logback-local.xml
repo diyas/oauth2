@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <property name="LOG_PATTERN" value="%clr(%X{CorrelationId}){yellow} %clr(%X{username}){yellow}%clr(%-5p) | %clr(%d{yyyy-MM-dd E HH:mm:ss.SSS}){blue} | %clr(${PID}){faint} | %clr([%t]){cyan} | %class{36}.%M %L | %clr(%msg){green} %n"/>
+    <property name="LOG_PATH" value="${CATALINA_BASE}"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SAVE-TO-FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/oauth.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+
+        <!-- Comment out rolling policies to test how the remaining one works -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>
+                ${LOG_PATH}/archived/oauth.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <springProfile name="dev">
+        <root level="info">
+            <appender-ref ref="STDOUT"/>
+        </root>
+        <logger name="com.auth.app" level="debug">
+            <appender-ref ref="SAVE-TO-FILE"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="local">
+        <root level="info">
+            <appender-ref ref="STDOUT"/>
+        </root>
+        <logger name="com.auth.app" level="debug">
+            <appender-ref ref="SAVE-TO-FILE"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="demo">
+        <root level="debug">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="SAVE-TO-FILE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="stag">
+        <root level="debug">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="SAVE-TO-FILE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <root level="info">
+            <appender-ref ref="SAVE-TO-FILE"/>
+        </root>
+    </springProfile>
+
+</configuration>
