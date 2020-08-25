@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - java_network
+  oauth2:
+    container_name: oauth2
+    image: oauth2:1.0
+    ports:
+      - 8080:8080
+    depends_on:
+      - redis
+    environment:
+      - db-host=172.24.112.1:2600
+      - profiles=docker
+      - redis_host=redis
+      - redis_port=6379
+    networks:
+      - java_network
+networks:
+  java_network:
+    name: java_network
+

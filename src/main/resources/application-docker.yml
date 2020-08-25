@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${db-host}/midware_3rd_party_pos?autoReconnect=true
+    username: root
+    password: P@ssw0rd.15!
+    poolName: SpringBootHikariCP
+    maximumPoolSize: 5
+    minimumIdle: 3
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+  redis:
+    host: ${redis-host}
+    port: ${redis-port}
+    max-total: 128
+    max-idle: 128
+    min-idle: 16
+    min-evictable-idle-time-millis: 60
+    time-between-eviction-runs-millis: 30
+    block-when-exhausted: true
+    use-pool: true
+  jpa:
+    hibernate.ddl-auto: none
+    show-sql: false
+    databas   e-platform: org.hibernate.dialect.MariaDBDialect
+  security:
+    oauth2:
+      resource:
+        filter-order: 3
+
+master:
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:2600/midware_master_db?autoReconnect=true
+    username: root
+    password: P@ssw0rd.15!
+    poolName: SpringBootHikariCP
+    maximumPoolSize: 5
+    minimumIdle: 3
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+server:
+  port: 8080
+  servlet:
+    context-path: /oauth2
+logging:
+  config: classpath:logback-server.xml

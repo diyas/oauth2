@@ -38,8 +38,6 @@ public class RedisSessionConfiguration {
     public JedisConnectionFactory jedisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(redisProperties.getHost());
-        //redisStandaloneConfiguration.setDatabase(0);
-        //redisStandaloneConfiguration.setPassword(RedisPassword.of("123456"));
         redisStandaloneConfiguration.setPort(redisProperties.getPort());
         JedisClientConfiguration.JedisPoolingClientConfigurationBuilder jpccb =
                 (JedisClientConfiguration.JedisPoolingClientConfigurationBuilder) JedisClientConfiguration.builder();

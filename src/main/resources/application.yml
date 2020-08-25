@@ -1,5 +1,6 @@
 spring:
   application:
-    name: Profiles
+    name: oauth
   profiles:
-    active: local
+#    active: ${profiles}
+    active: dev

@@ -45,6 +45,15 @@
         </logger>
     </springProfile>
 
+    <springProfile name="docker">
+        <root level="info">
+            <appender-ref ref="STDOUT"/>
+        </root>
+        <logger name="com.auth.app" level="debug">
+            <appender-ref ref="SAVE-TO-FILE"/>
+        </logger>
+    </springProfile>
+
     <springProfile name="demo">
         <root level="debug">
             <appender-ref ref="STDOUT"/>

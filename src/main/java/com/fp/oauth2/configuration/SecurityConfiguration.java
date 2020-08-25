@@ -53,6 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/**").permitAll()
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/oauth/revoke").permitAll()
+                .antMatchers("/actuator/**/**/**").permitAll()
                 .antMatchers("/sync/client").permitAll()
                 .antMatchers("/",
                         "/favicon.ico",
