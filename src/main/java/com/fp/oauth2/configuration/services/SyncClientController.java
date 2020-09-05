@@ -34,7 +34,7 @@ public class SyncClientController {
             OauthClientDetails o = clientRepo.findByClientId(String.valueOf(mv.getMerchantId()));
             if (o == null){
                 o = new OauthClientDetails();
-                o.setClientId("client-"+String.valueOf(mv.getMerchantId()));
+                o.setClientId(mv.getMerchantGroupName() == null?"":mv.getMerchantGroupName().replace(" ","")+"-"+mv.getMerchantId());
                 o.setResourceIds("rest-api");
                 o.setClientSecret("$2y$12$pgHlh7m6No0TBRdfYNeTLeXx5qCtDATcrQzsGg3mRbm3KKHTWTIju");
                 o.setScope("read,write");

@@ -1,5 +1,6 @@
 package com.fp.oauth2.configuration.services;
 
+import com.fp.oauth2.configuration.CustomTokenServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -8,10 +9,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,19 +25,18 @@ public class TokenController {
     private TokenStore tokenStore;
 
     @Autowired
-    private DefaultTokenServices tokenServices;
+    private CustomTokenServices tokenServices;
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/revoke")
-    @ResponseStatus(HttpStatus.OK)
-    public void revokeToken(HttpServletRequest request) {
-        String authorization = request.getHeader("Authorization");
+    @PostMapping("/revoke")
+    public String revokeToken(@RequestHeader("Authorization") String authorization) {
         if ((authorization != null && authorization.contains("Bearer")) || (authorization != null && authorization.contains("bearer"))) {
             String tokenId = authorization.substring("Bearer".length() + 1);
-
-            tokenServices.revokeToken(tokenId);
-            if (tokenStore instanceof JdbcTokenStore) {
-                    ((JdbcTokenStore) tokenStore).removeRefreshToken(tokenId);
-            }
+            boolean isRevoke = tokenServices.revokeToken(tokenId);
+            if (isRevoke)
+                return "Success";
+            else
+                return "Failed";
         }
+        return "Unknown Bearer token";
     }
 }

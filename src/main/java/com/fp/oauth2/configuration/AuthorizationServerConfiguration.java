@@ -77,8 +77,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     }
 
     @Bean
-    public DefaultTokenServices tokenServices() {
-        DefaultTokenServices services = new DefaultTokenServices();
+    public CustomTokenServices tokenServices() {
+        CustomTokenServices services = new CustomTokenServices();
         services.setTokenStore(tokenStore());
         services.setSupportRefreshToken(true);
         services.setReuseRefreshToken(false);

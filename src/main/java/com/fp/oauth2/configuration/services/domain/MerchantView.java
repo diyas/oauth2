@@ -12,5 +12,7 @@ public class MerchantView {
     @Column
     private int merchantId;
     @Column
+    private String merchantGroupName;
+    @Column
     private String merchantName;
 }
